@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kha Lo Restaurant – Fresh & Delicious Food</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red: #E8192C;
+      --red-dark: #c0101f;
+      --red-light: #fff0f1;
+      --yellow: #FFB800;
+      --yellow-light: #fff8e1;
+      --black: #0f0f0f;
+      --gray-dark: #2d2d2d;
+      --gray: #6b6b6b;
+      --gray-light: #f5f5f5;
+      --white: #ffffff;
+      --whatsapp: #25D366;
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body: 'DM Sans', sans-serif;
+      --radius: 16px;
+      --radius-lg: 24px;
+      --shadow: 0 4px 24px rgba(0,0,0,0.08);
+      --shadow-lg: 0 16px 48px rgba(0,0,0,0.14);
+      --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); color: var(--black); background: var(--white); overflow-x: hidden; }
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+    /* BUTTONS */
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 24px; border-radius: 50px; font-family: var(--font-body);
+      font-weight: 600; font-size: 15px; cursor: pointer; border: none;
+      transition: var(--transition); white-space: nowrap;
+    }
+    .btn-primary { background: var(--red); color: var(--white); box-shadow: 0 4px 20px rgba(232,25,44,0.35); }
+    .btn-primary:hover { background: var(--red-dark); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(232,25,44,0.4); }
+    .btn-outline { background: transparent; color: var(--black); border: 2px solid var(--black); }
+    .btn-outline:hover { background: var(--black); color: var(--white); transform: translateY(-2px); }
+    .btn-white { background: var(--white); color: var(--red); font-weight: 700; }
+    .btn-white:hover { background: var(--yellow); color: var(--black); transform: translateY(-2px); }
+    .btn-whatsapp { background: var(--whatsapp); color: var(--white); }
+    .btn-whatsapp:hover { background: #1da851; transform: translateY(-2px); }
+    .btn-sm { padding: 8px 18px; font-size: 13px; }
+    .btn-large { padding: 16px 32px; font-size: 16px; }
+    .text-accent { color: var(--red); }
+
+    /* HEADER */
+    .header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: rgba(255,255,255,0.95); backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(0,0,0,0.06); transition: var(--transition);
+    }
+    .header.scrolled { box-shadow: 0 4px 24px rgba(0,0,0,0.08); }
+    .nav { display: flex; align-items: center; height: 72px; gap: 8px; }
+    .logo { display: flex; align-items: center; gap: 8px; font-family: var(--font-display); font-size: 26px; font-weight: 900; margin-right: auto; }
+    .logo-icon { font-size: 28px; }
+    .logo-accent { color: var(--red); }
+    .nav-links { display: flex; gap: 4px; }
+    .nav-link { padding: 8px 16px; border-radius: 50px; font-weight: 500; color: var(--gray-dark); transition: var(--transition); font-size: 15px; }
+    .nav-link:hover, .nav-link.active { color: var(--red); background: var(--red-light); }
+    .nav-cta { margin-left: 12px; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px; margin-left: 8px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--black); border-radius: 2px; transition: var(--transition); }
+    .mobile-menu {
+      display: none; position: fixed; top: 72px; left: 0; right: 0;
+      background: var(--white); padding: 20px 24px; border-bottom: 1px solid rgba(0,0,0,0.08);
+      box-shadow: var(--shadow-lg); z-index: 999; flex-direction: column; gap: 8px;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { padding: 12px 16px; border-radius: var(--radius); font-weight: 500; font-size: 16px; color: var(--gray-dark); }
+    .mobile-menu a:hover { background: var(--red-light); color: var(--red); }
+    .mobile-menu .btn { margin-top: 8px; justify-content: center; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center;
+      padding: 100px 0 60px; position: relative; overflow: hidden;
+      background: linear-gradient(135deg, #fff8f8 0%, #fffdf0 50%, #fff 100%);
+    }
+    .hero-bg-shapes { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+    .shape { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.4; }
+    .shape-1 { width: 500px; height: 500px; background: rgba(232,25,44,0.15); top: -100px; right: -100px; animation: float1 8s ease-in-out infinite; }
+    .shape-2 { width: 300px; height: 300px; background: rgba(255,184,0,0.2); bottom: 0; left: -50px; animation: float2 10s ease-in-out infinite; }
+    .shape-3 { width: 200px; height: 200px; background: rgba(232,25,44,0.1); top: 50%; left: 40%; animation: float1 12s ease-in-out infinite reverse; }
+    @keyframes float1 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-20px)} }
+    @keyframes float2 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(20px)} }
+
+    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; position: relative; z-index: 1; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--yellow-light); color: var(--gray-dark); border: 1px solid var(--yellow); padding: 6px 16px; border-radius: 50px; font-size: 13px; font-weight: 600; margin-bottom: 24px; }
+    .hero-title { font-family: var(--font-display); font-size: clamp(44px, 6vw, 76px); line-height: 1.05; font-weight: 900; margin-bottom: 20px; }
+    .hero-sub { font-size: 18px; color: var(--gray); line-height: 1.7; margin-bottom: 36px; max-width: 440px; }
+    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 48px; }
+    .hero-stats { display: flex; align-items: center; gap: 24px; }
+    .stat { display: flex; flex-direction: column; }
+    .stat strong { font-size: 24px; font-weight: 700; }
+    .stat span { font-size: 13px; color: var(--gray); }
+    .stat-divider { width: 1px; height: 40px; background: rgba(0,0,0,0.12); }
+
+    .hero-image-wrap { position: relative; }
+    .hero-img-blob {
+      width: 100%; aspect-ratio: 1;
+      border-radius: 60% 40% 55% 45% / 50% 45% 55% 50%;
+      overflow: hidden; box-shadow: var(--shadow-lg);
+      animation: morph 10s ease-in-out infinite;
+    }
+    @keyframes morph { 0%,100%{border-radius:60% 40% 55% 45%/50% 45% 55% 50%} 50%{border-radius:40% 60% 45% 55%/55% 50% 45% 50%} }
+    .hero-img { width: 100%; height: 100%; object-fit: cover; }
+    .floating-badge {
+      position: absolute; background: var(--white); border-radius: var(--radius);
+      padding: 12px 16px; display: flex; align-items: center; gap: 12px;
+      box-shadow: var(--shadow-lg); font-size: 13px; animation: float1 6s ease-in-out infinite;
+    }
+    .floating-badge strong { display: block; font-weight: 700; font-size: 14px; }
+    .floating-badge small { color: var(--gray); }
+    .badge-icon { font-size: 24px; }
+    .badge-top { top: 10%; right: -16px; }
+    .badge-bottom { bottom: 12%; left: -16px; animation-delay: 3s; }
+
+    /* SECTIONS */
+    .section { padding: 100px 0; }
+    .section-header { text-align: center; margin-bottom: 60px; }
+    .section-tag { display: inline-block; background: var(--red-light); color: var(--red); padding: 6px 16px; border-radius: 50px; font-size: 13px; font-weight: 700; text-transform: uppercase; margin-bottom: 12px; }
+    .section-title { font-family: var(--font-display); font-size: clamp(30px, 4vw, 48px); font-weight: 900; margin-bottom: 16px; }
+    .section-sub { color: var(--gray); font-size: 17px; max-width: 520px; margin: 0 auto; line-height: 1.7; }
+
+    /* DISHES */
+    .dishes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+    .dish-card { background: var(--white); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow); transition: var(--transition); border: 1px solid rgba(0,0,0,0.06); }
+    .dish-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); }
+    .dish-card--featured { border: 2px solid var(--red); }
+    .dish-img-wrap { position: relative; overflow: hidden; aspect-ratio: 4/3; }
+    .dish-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+    .dish-card:hover .dish-img { transform: scale(1.06); }
+    .dish-badge { position: absolute; top: 12px; left: 12px; background: var(--yellow); color: var(--black); padding: 4px 12px; border-radius: 50px; font-size: 12px; font-weight: 700; }
+    .dish-badge--red { background: var(--red); color: var(--white); }
+    .dish-info { padding: 20px; }
+    .dish-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .dish-emoji { font-size: 22px; }
+    .dish-name { font-family: var(--font-display); font-size: 20px; font-weight: 700; }
+    .dish-desc { color: var(--gray); font-size: 14px; line-height: 1.6; margin-bottom: 16px; }
+    .dish-footer { display: flex; justify-content: space-between; align-items: center; }
+    .dish-price { font-size: 18px; font-weight: 700; color: var(--red); }
+    .dishes-cta { text-align: center; margin-top: 48px; }
+
+    /* WHY */
+    .why { background: var(--gray-light); position: relative; }
+    .why-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+    .why-card { background: var(--white); border-radius: var(--radius-lg); padding: 36px 24px; text-align: center; box-shadow: var(--shadow); transition: var(--transition); }
+    .why-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+    .why-icon { font-size: 48px; margin-bottom: 16px; display: inline-block; transition: transform 0.3s ease; }
+    .why-card:hover .why-icon { transform: scale(1.15) rotate(-5deg); }
+    .why-card h3 { font-family: var(--font-display); font-size: 20px; font-weight: 700; margin-bottom: 10px; }
+    .why-card p { color: var(--gray); font-size: 14px; line-height: 1.7; }
+
+    /* CTA */
+    .cta-banner { background: linear-gradient(135deg, var(--red) 0%, #ff4757 50%, var(--red-dark) 100%); padding: 100px 0; position: relative; overflow: hidden; }
+    .cta-shape { position: absolute; background: rgba(255,255,255,0.08); border-radius: 50%; }
+    .cta-shape-1 { width: 400px; height: 400px; top: -150px; right: -100px; }
+    .cta-shape-2 { width: 250px; height: 250px; bottom: -100px; left: 5%; }
+    .cta-inner { display: flex; align-items: center; justify-content: space-between; gap: 40px; position: relative; z-index: 1; }
+    .cta-text h2 { font-family: var(--font-display); font-size: clamp(30px, 4vw, 52px); font-weight: 900; color: var(--white); margin-bottom: 12px; }
+    .cta-text p { color: rgba(255,255,255,0.85); font-size: 18px; max-width: 480px; line-height: 1.6; }
+    .cta-actions { display: flex; gap: 16px; flex-wrap: wrap; flex-shrink: 0; }
+
+    /* TESTIMONIALS */
+    .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+    .testimonial-card { background: var(--gray-light); border-radius: var(--radius-lg); padding: 32px; transition: var(--transition); }
+    .testimonial-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+    .stars { font-size: 18px; margin-bottom: 16px; }
+    .testimonial-card > p { color: var(--gray-dark); font-size: 15px; line-height: 1.7; margin-bottom: 24px; font-style: italic; }
+    .t-author { display: flex; align-items: center; gap: 12px; }
+    .t-avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--red); color: var(--white); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 18px; flex-shrink: 0; }
+    .t-author strong { display: block; font-size: 15px; }
+    .t-author small { color: var(--gray); font-size: 13px; }
+
+    /* FOOTER */
+    .footer { background: var(--black); color: rgba(255,255,255,0.8); padding: 80px 0 0; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 48px; padding-bottom: 60px; }
+    .footer-logo { display: flex; align-items: center; gap: 8px; font-family: var(--font-display); font-size: 26px; font-weight: 900; color: var(--white); margin-bottom: 16px; }
+    .footer-brand p { font-size: 14px; line-height: 1.7; opacity: 0.7; margin-bottom: 24px; }
+    .social-links { display: flex; gap: 12px; }
+    .social-link { width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; transition: var(--transition); }
+    .social-link:hover { background: var(--red); transform: translateY(-3px); }
+    .footer-col h4 { color: var(--white); font-size: 16px; font-weight: 700; margin-bottom: 20px; }
+    .footer-col ul { display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul li a { font-size: 14px; opacity: 0.7; transition: var(--transition); }
+    .footer-col ul li a:hover { opacity: 1; color: var(--yellow); }
+    .footer-contact li { display: flex; gap: 8px; font-size: 14px; opacity: 0.7; margin-bottom: 10px; }
+    .footer-contact li a:hover { color: var(--yellow); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding: 20px 0; text-align: center; }
+    .footer-bottom p { font-size: 13px; opacity: 0.5; }
+
+    /* ANIMATIONS */
+    [data-animate] { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    [data-animate="fade-left"] { transform: translateX(40px); }
+    [data-animate].visible { opacity: 1; transform: none; }
+
+    /* RESPONSIVE */
+    @media (max-width: 1024px) {
+      .why-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    }
+    @media (max-width: 768px) {
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .hero-grid { grid-template-columns: 1fr; text-align: center; }
+      .hero-image-wrap { order: -1; max-width: 340px; margin: 0 auto; }
+      .hero-actions, .hero-stats { justify-content: center; }
+      .badge-top { right: 0; top: 5%; }
+      .badge-bottom { left: 0; bottom: 5%; }
+      .dishes-grid { grid-template-columns: 1fr; }
+      .why-grid { grid-template-columns: 1fr 1fr; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .cta-inner { flex-direction: column; text-align: center; }
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      .why-grid { grid-template-columns: 1fr; }
+      .hero-actions { flex-direction: column; align-items: center; }
+      .hero-stats { flex-direction: column; gap: 12px; }
+      .stat-divider { display: none; }
+      .cta-actions { flex-direction: column; align-items: center; width: 100%; }
+      .cta-actions .btn { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header" id="header">
+    <nav class="nav container">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">🍜</span>
+        <span>Kha<span class="logo-accent">Lo</span></span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link active">Home</a></li>
+        <li><a href="menu.html" class="nav-link">Menu</a></li>
+        <li><a href="about.html" class="nav-link">About</a></li>
+        <li><a href="contact.html" class="nav-link">Contact</a></li>
+      </ul>
+      <a href="menu.html" class="btn btn-primary nav-cta">Order Now</a>
+      <button class="hamburger" id="hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html">🏠 Home</a>
+      <a href="menu.html">🍜 Menu</a>
+      <a href="about.html">ℹ️ About</a>
+      <a href="contact.html">📞 Contact</a>
+      <a href="menu.html" class="btn btn-primary">Order Now →</a>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-bg-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+      </div>
+      <div class="container hero-grid">
+        <div class="hero-content" data-animate="fade-up">
+          <span class="hero-badge">🔥 Bihar's Favourite Restaurant</span>
+          <h1 class="hero-title">Delicious<br/><span class="text-accent">Food,</span><br/>Served Fresh</h1>
+          <p class="hero-sub">Taste the best chowmein and biryani in town. Made with love, served with pride — every single day.</p>
+          <div class="hero-actions">
+            <a href="menu.html" class="btn btn-primary btn-large">View Menu →</a>
+            <a href="contact.html" class="btn btn-outline btn-large">Find Us</a>
+          </div>
+          <div class="hero-stats">
+            <div class="stat"><strong>500+</strong><span>Happy Customers</span></div>
+            <div class="stat-divider"></div>
+            <div class="stat"><strong>20+</strong><span>Menu Items</span></div>
+            <div class="stat-divider"></div>
+            <div class="stat"><strong>5★</strong><span>Rated</span></div>
+          </div>
+        </div>
+        <div class="hero-image-wrap" data-animate="fade-left">
+          <div class="hero-img-blob">
+            <img src="https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=600&q=80" alt="Delicious food" class="hero-img"/>
+          </div>
+          <div class="floating-badge badge-top">
+            <span class="badge-icon">⚡</span>
+            <div><strong>Fast Service</strong><small>Ready in 15 mins</small></div>
+          </div>
+          <div class="floating-badge badge-bottom">
+            <span class="badge-icon">🌿</span>
+            <div><strong>Fresh Daily</strong><small>100% Fresh</small></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- POPULAR DISHES -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header" data-animate="fade-up">
+          <span class="section-tag">Our Specialties</span>
+          <h2 class="section-title">Popular <span class="text-accent">Dishes</span></h2>
+          <p class="section-sub">Handcrafted with the freshest ingredients, our most-loved dishes keep customers coming back for more.</p>
+        </div>
+        <div class="dishes-grid">
+          <div class="dish-card" data-animate="fade-up" data-delay="0">
+            <div class="dish-img-wrap">
+              <img src="https://images.unsplash.com/photo-1585032226651-759b368d7246?w=500&q=80" alt="Chowmein" class="dish-img"/>
+              <span class="dish-badge">⭐ Best Seller</span>
+            </div>
+            <div class="dish-info">
+              <div class="dish-header">
+                <span class="dish-emoji">🍜</span>
+                <h3 class="dish-name">Special Chowmein</h3>
+              </div>
+              <p class="dish-desc">Wok-tossed noodles with fresh veggies, secret spices and a smoky finish that keeps you craving more.</p>
+              <div class="dish-footer">
+                <span class="dish-price">₹60 – ₹120</span>
+                <a href="menu.html" class="btn btn-primary btn-sm">Order Now</a>
+              </div>
+            </div>
+          </div>
+          <div class="dish-card dish-card--featured" data-animate="fade-up" data-delay="100">
+            <div class="dish-img-wrap">
+              <img src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=500&q=80" alt="Biryani" class="dish-img"/>
+              <span class="dish-badge dish-badge--red">🔥 Chef's Pick</span>
+            </div>
+            <div class="dish-info">
+              <div class="dish-header">
+                <span class="dish-emoji">🍛</span>
+                <h3 class="dish-name">Fragrant Biryani</h3>
+              </div>
+              <p class="dish-desc">Slow-cooked aromatic rice layered with tender meat, saffron and whole spices. A true royal feast.</p>
+              <div class="dish-footer">
+                <span class="dish-price">₹120 – ₹200</span>
+                <a href="menu.html" class="btn btn-primary btn-sm">Order Now</a>
+              </div>
+            </div>
+          </div>
+          <div class="dish-card" data-animate="fade-up" data-delay="200">
+            <div class="dish-img-wrap">
+              <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?w=500&q=80" alt="Momos" class="dish-img"/>
+              <span class="dish-badge">🆕 New</span>
+            </div>
+            <div class="dish-info">
+              <div class="dish-header">
+                <span class="dish-emoji">🥟</span>
+                <h3 class="dish-name">Spicy Momos</h3>
+              </div>
+              <p class="dish-desc">Steamed or fried dumplings packed with flavourful filling, served with fiery red chutney.</p>
+              <div class="dish-footer">
+                <span class="dish-price">₹50 – ₹90</span>
+                <a href="menu.html" class="btn btn-primary btn-sm">Order Now</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="dishes-cta" data-animate="fade-up">
+          <a href="menu.html" class="btn btn-primary btn-large">See Full Menu →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY CHOOSE US -->
+    <section class="section why">
+      <div class="container">
+        <div class="section-header" data-animate="fade-up">
+          <span class="section-tag">Why Kha Lo?</span>
+          <h2 class="section-title">Why Choose <span class="text-accent">Us</span></h2>
+        </div>
+        <div class="why-grid">
+          <div class="why-card" data-animate="fade-up" data-delay="0">
+            <div class="why-icon">🥗</div>
+            <h3>Fresh Ingredients</h3>
+            <p>We source the freshest vegetables and spices daily. No shortcuts — only real, wholesome food.</p>
+          </div>
+          <div class="why-card" data-animate="fade-up" data-delay="100">
+            <div class="why-icon">⚡</div>
+            <h3>Fast Service</h3>
+            <p>Your order is ready fast without compromising quality. We respect your time as much as your taste buds.</p>
+          </div>
+          <div class="why-card" data-animate="fade-up" data-delay="200">
+            <div class="why-icon">😋</div>
+            <h3>Delicious Taste</h3>
+            <p>Perfected recipes passed down with passion. Every bite is crafted to bring a smile to your face.</p>
+          </div>
+          <div class="why-card" data-animate="fade-up" data-delay="300">
+            <div class="why-icon">💰</div>
+            <h3>Affordable Prices</h3>
+            <p>Restaurant-quality food at street-food prices. Eat great without burning a hole in your pocket.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA BANNER -->
+    <section class="cta-banner">
+      <div class="cta-shape cta-shape-1"></div>
+      <div class="cta-shape cta-shape-2"></div>
+      <div class="container cta-inner" data-animate="fade-up">
+        <div class="cta-text">
+          <h2>Hungry? 🍽️</h2>
+          <p>Order now and enjoy the most delicious food in Bihar — delivered fresh to your table.</p>
+        </div>
+        <div class="cta-actions">
+          <a href="menu.html" class="btn btn-white btn-large">Order Now →</a>
+          <a href="https://wa.me/919876543210" class="btn btn-whatsapp btn-large" target="_blank">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+            WhatsApp Us
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header" data-animate="fade-up">
+          <span class="section-tag">Customer Love</span>
+          <h2 class="section-title">What People <span class="text-accent">Say</span></h2>
+        </div>
+        <div class="testimonials-grid">
+          <div class="testimonial-card" data-animate="fade-up" data-delay="0">
+            <div class="stars">⭐⭐⭐⭐⭐</div>
+            <p>"Best chowmein I've ever had in Patna. The flavour is absolutely unmatched. I visit every week!"</p>
+            <div class="t-author">
+              <div class="t-avatar">R</div>
+              <div><strong>Rahul Kumar</strong><small>Patna, Bihar</small></div>
+            </div>
+          </div>
+          <div class="testimonial-card" data-animate="fade-up" data-delay="100">
+            <div class="stars">⭐⭐⭐⭐⭐</div>
+            <p>"The biryani is heavenly! Affordable price and huge portions. Kha Lo is my go-to restaurant now."</p>
+            <div class="t-author">
+              <div class="t-avatar">P</div>
+              <div><strong>Priya Singh</strong><small>Bihar</small></div>
+            </div>
+          </div>
+          <div class="testimonial-card" data-animate="fade-up" data-delay="200">
+            <div class="stars">⭐⭐⭐⭐⭐</div>
+            <p>"Super fast service and incredibly fresh food. The momos are to die for. Highly recommend!"</p>
+            <div class="t-author">
+              <div class="t-avatar">A</div>
+              <div><strong>Amit Verma</strong><small>Patna, Bihar</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">🍜 Kha<span class="logo-accent">Lo</span></div>
+        <p>Fresh & delicious food served with love every day. Visit us in Bihar and taste the difference.</p>
+        <div class="social-links">
+          <a href="#" class="social-link">📸</a>
+          <a href="#" class="social-link">📘</a>
+          <a href="https://wa.me/919876543210" class="social-link">💬</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="menu.html">Menu</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Our Menu</h4>
+        <ul>
+          <li><a href="menu.html">Chowmein</a></li>
+          <li><a href="menu.html">Biryani</a></li>
+          <li><a href="menu.html">Momos</a></li>
+          <li><a href="menu.html">Fried Rice</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact Us</h4>
+        <ul class="footer-contact">
+          <li>📞 <a href="tel:+919876543210">+91 98765 43210</a></li>
+          <li>📍 Bihar, India</li>
+          <li>🕐 10 AM – 10 PM Daily</li>
+          <li>📧 <a href="mailto:hello@khalo.in">hello@khalo.in</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <p>© 2025 Kha Lo Restaurant. Made with ❤️ in Bihar, India.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Header scroll
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 20);
+    });
+
+    // Mobile menu
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    hamburger.addEventListener('click', () => {
+      mobileMenu.classList.toggle('open');
+    });
+    mobileMenu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => mobileMenu.classList.remove('open'));
+    });
+
+    // Scroll animations
+    const els = document.querySelectorAll('[data-animate]');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), e.target.dataset.delay || 0);
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    els.forEach(el => obs.observe(el));
+  </script>
+
+</body>
+</html>
